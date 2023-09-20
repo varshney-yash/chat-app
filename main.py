@@ -1,11 +1,33 @@
 from fastapi import FastAPI, HTTPException
 from motor.motor_asyncio import AsyncIOMotorClient
+from fastapi.responses import HTMLResponse
 import bcrypt
 from db import uri
 from models import User
 
 
 app = FastAPI()
+
+
+html = f"""
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>FastAPI</title>
+    </head>
+    <body>
+        <ul>
+            <li><a href="/docs">/docs</a></li>
+            <li><a href="/redoc">/redoc</a></li>
+        </ul>
+
+    </body>
+</html>
+"""
+
+@app.get("/")
+async def root():
+    return HTMLResponse(html)
 
 MONGO_URI = uri
 client = AsyncIOMotorClient(MONGO_URI)
